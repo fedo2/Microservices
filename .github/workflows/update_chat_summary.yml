@@ -1,0 +1,32 @@
+name: Update Chat Summary
+
+on:
+  push:
+    branches:
+      - main  # Spustí se při každém pushi na hlavní větev
+  workflow_dispatch:  # Možnost manuálního spuštění
+
+jobs:
+  update-summary:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Run update script
+        run: |
+          python scripts/update_chat_summary.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add docs/chat_summary.md
+          git commit -m "Automated update of chat summary"
+          git push
