@@ -32,4 +32,4 @@ def upload_text_file():
     return jsonify({"content": content})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5000, debug=True)

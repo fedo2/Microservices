@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Test File Upload</title>
+</head>
+<body>
+  <input type="file" id="fileInput" />
+  <button id="btn-upload-file">Upload Soubor</button>
+  <pre id="result"></pre>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const resultDiv = document.getElementById('result');
+
+    document.getElementById('btn-upload-file').addEventListener('click', async () => {
+      try {
+        const formData = new FormData();
+        if (fileInput.files.length > 0) {
+          formData.append('file', fileInput.files[0]);
+        }
+
+        const res = await fetch('http://localhost:5000/text', {
+          method: 'POST',
+          body: formData // Content-Type se nastaví automaticky
+        });
+
+        const data = await res.json();
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

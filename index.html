@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jednoduchý Frontend pro Microservices</title>
+</head>
+<body>
+  <h1>Jednoduchý Frontend pro Microservices (CORS demo)</h1>
+
+  <!-- Tlačítka pro volání jednotlivých endpointů -->
+  <button id="btn-get-hello">GET /hello</button>
+  <button id="btn-get-text">GET /text</button>
+  <button id="btn-post-text">POST /text</button>
+
+  <!-- Místo pro výpis odpovědí -->
+  <div id="result" style="margin-top:20px; white-space: pre;"></div>
+
+  <script>
+    const resultDiv = document.getElementById("result");
+
+    // Funkce pro zobrazení výsledku či chyb
+    function showResult(response) {
+      resultDiv.textContent = JSON.stringify(response, null, 2);
+    }
+
+    // 1) GET /hello
+    document.getElementById("btn-get-hello").addEventListener("click", async () => {
+      try {
+        const res = await fetch("http://localhost:8080/hello"); // upravte na své API
+        const data = await res.text(); // Předpokládáme textovou odpověď (např. "Hello World")
+        showResult({ endpoint: "/hello", data });
+      } catch (error) {
+        showResult({ endpoint: "/hello", error: error.message });
+      }
+    });
+
+    // 2) GET /text
+    document.getElementById("btn-get-text").addEventListener("click", async () => {
+      try {
+        const res = await fetch("http://localhost:8080/text"); // upravte na své API
+        const data = await res.json(); // Předpokládáme, že endpoint vrací JSON
+        showResult({ endpoint: "/text", data });
+      } catch (error) {
+        showResult({ endpoint: "/text", error: error.message });
+      }
+    });
+
+    // 3) POST /text
+    document.getElementById("btn-post-text").addEventListener("click", async () => {
+      try {
+        const res = await fetch("http://localhost:8080/text", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text: "Ahoj z frontendu" })
+        });
+        const data = await res.json(); // Předpokládáme, že endpoint vrací JSON
+        showResult({ endpoint: "/text (POST)", data });
+      } catch (error) {
+        showResult({ endpoint: "/text (POST)", error: error.message });
+      }
+    });
+  </script>
+</body>
+</html>
