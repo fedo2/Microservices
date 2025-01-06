@@ -3,8 +3,11 @@ name: Update Chat Summary
 on:
   push:
     branches:
-      - main  # Spustí se při každém pushi na hlavní větev
-  workflow_dispatch:  # Možnost manuálního spuštění
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write  # 🔥 DŮLEŽITÉ: Umožní GitHub Actions zapisovat do repozitáře
 
 jobs:
   update-summary:
@@ -13,6 +16,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -20,8 +25,7 @@ jobs:
           python-version: '3.x'
 
       - name: Run update script
-        run: |
-          python scripts/update_chat_summary.py
+        run: python scripts/update_chat_summary.py
 
       - name: Commit and push changes
         run: |
