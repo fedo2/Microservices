@@ -196,4 +196,323 @@ Tento plán je dostatečně **modulární**: v každé fázi se věnuješ malé 
 
 Jakmile budou tyto kroky funkční, můžeš projekt dále rozšiřovat – např. přidat autentizaci, databázi, background jobs, případně vše rozdělit na více mikroslužeb. Ale základní struktura (a tvůj plán) je rozhodně dobrá cesta, jak se s REST API a mikroslužbami v Pythonu prakticky seznámit.  
 
-Pokud máš cokoliv dalšího, co bys chtěl do plánu zahrnout (např. testování, Docker, CI/CD pipeline), dej vědět a doplníme to!  
+Pokud máš cokoliv dalšího, co bys chtěl do plánu zahrnout (např. testování, Docker, CI/CD pipeline), dej vědět a doplníme to!
+
+## 2025-01-06
+Skvělé! Tady je stručná rekapitulace plánu s ohledem na nové **veřejné repozitáře** na GitHubu a pár tipů, jak postupovat:
+
+---
+
+## 1. **Repozitář na GitHubu**  
+- Adresa: [github.com/fedo2/Mircroservices](https://github.com/fedo2/Mircroservices)  
+- Vytvoř v něm (pokud už není):
+  - `README.md` s popisem projektu a instrukcemi (instalace, spuštění).
+  - `requirements.txt` (nebo `Pipfile`), kam budeš doplňovat Python balíčky.
+
+---
+
+## 2. **Iterační vývoj REST API + Frontend**  
+Níže najdeš shrnutí kroků, abychom mohli průběžně commitovat a verziovat v GitHubu:
+
+1. **Základní kostra aplikace**  
+   - Soubor `app.py` (použij Flask nebo FastAPI).  
+   - V `.gitignore` nezapomeň na `__pycache__` a další nepotřebné soubory.  
+   - První commit: „Inicializace projektu“.
+
+2. **Endpoint \`/hello\`**  
+   - Jednoduchý návrat JSON: `{"message": "Hello World"}`.  
+   - Test skrze `curl http://localhost:5000/hello`.  
+   - Commit: „Endpoint /hello“.
+
+3. **Čtení textového souboru \`sample.txt\`**  
+   - Nový endpoint, např. `GET /text`, který vrátí obsah souboru.  
+   - Test skrze `curl http://localhost:5000/text`.  
+   - Commit: „Čtení obsahu souboru sample.txt“.
+
+4. **Lehký frontend (HTML + JS)**  
+   - Vytvoř `index.html`, použij `fetch()` pro volání `/text`.  
+   - Ve Flasku zapni/povol CORS (např. `flask-cors` nebo ručně přidat hlavičky).  
+   - Commit: „Přidána CORS konfigurace a jednoduchý frontend“.
+
+5. **Zpracování Excel -> JSON**  
+   - Použij `openpyxl` nebo `pandas`.  
+   - Endpoint `POST /xlsx-to-json` přijme XLSX a vrátí JSON.  
+   - Test přes `curl` (multipart form-data) nebo frontend.  
+   - Commit: „Implementace endpointu /xlsx-to-json“.
+
+6. **Dokumentace & údržba**  
+   - Udržuj `README.md`, piš do něj, jak projekt spustit, testovat a nasadit.  
+   - `PROJECT_JOURNAL.md` (nebo sekce v README) pro chronologický zápis.  
+   - Po malých krocích pushuj do GitHubu.
+
+---
+
+## 3. **Project Journal**  
+V repozitáři si založ buď **samostatný soubor** (`PROJECT_JOURNAL.md`) nebo používej **sekci v README**. Zapisuj tam:
+
+1. **Datum** – Kdy jsi přidal novou funkcionalitu (např. 2025-01-10).  
+2. **Popis** – Co přesně jsi změnil (endpointy, soubory, knihovny).  
+3. **Způsob testování** – Jak jsi to zkoušel (curl, prohlížeč).  
+4. **Další plány** – Co bys rád přidal, případně nápady na vylepšení.
+
+Každý den/týden prostě sepíšeš krátkou rekapitulaci. To usnadní dohledávání chyb a zajišťuje přehled o projektu.
+
+---
+
+## 4. **Mermaid diagramy**  
+Pro lepší čitelnost a dokumentaci je můžeš mít třeba přímo v `README.md` nebo v `docs/diagramy.md`.  
+
+- **Gantt** pro časový přehled.  
+- **Sekvenční diagram** pro ukázku komunikace frontendu a backendu.
+
+Příklad Gantt diagramu (upraveno pro repo na GitHubu):
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title       Plán projektu - Microservices
+
+    section Inicializace
+    "Repo na GitHubu, README": done, 2025-01-06, 1d
+
+    section REST API
+    "/hello" endpoint: done, 2025-01-07, 1d
+    "/text" endpoint: done, 2025-01-08, 1d
+
+    section Frontend + CORS
+    "index.html" + fetch: active, 2025-01-09, 1d
+    "CORS nastavení": 2025-01-10, 1d
+
+    section Zpracování Excel
+    "/xlsx-to-json": 2025-01-11, 2d
+    "Test v frontendu": 2025-01-13, 1d
+
+    section Dokončení
+    "Documentace + Journal": 2025-01-14, 1d
+    "Nasazení do cloudu (bonus)": 2025-01-15, 1d
+```
+
+---
+
+## 5. **Doporučení a rozšíření**  
+- **Testy**: Cílem je naučit se základy, ale pokud budeš mít chuť, zkus i jednotkové testy (např. `pytest`).  
+- **Nasazení**: Zvaž Heroku, Railway nebo AWS, abys vyzkoušel production prostředí.  
+- **CI/CD**: Při dalším rozšíření projektu můžeš přidat GitHub Actions pro automatické testy nebo lintování.  
+
+---
+
+### **Závěr**
+Tvůj plán je **výborný** pro pozvolný postup a naučení se základů. Stačí vše iterovat, dělat malé commity a mít přehled v `Project Journal`. Pokud narazíš na problém (CORS, instalace knihoven, Docker atd.), stačí se ozvat a probereme to podrobněji.
+
+Držím palce a těším se na další pokroky v repozitáři  
+[github.com/fedo2/Mircroservices](https://github.com/fedo2/Mircroservices)!  
+
+Díky za upřesnění. Níže je shrnutí plánu s aktualizovaným odkazem na repozitář:
+
+---
+
+## 1. **Repozitář na GitHubu**  
+- Adresa: [github.com/fedo2/Microservices](https://github.com/fedo2/Microservices)  
+- V repu (pokud ještě není):
+  - `README.md` s popisem projektu a instrukcemi k instalaci/spuštění.  
+  - `requirements.txt` (nebo `Pipfile`), kam budeš přidávat Python balíčky.  
+  - `.gitignore` (např. pro `__pycache__`, `.DS_Store`, atd.).
+
+---
+
+## 2. **Iterační vývoj REST API + Frontend**  
+Pro připomenutí klíčové kroky:
+
+1. **Základní kostra aplikace**  
+   - Soubor `app.py` pro Flask (nebo FastAPI).  
+   - První commit: „Inicializace projektu“.  
+
+2. **Endpoint `/hello`**  
+   - Vrací např. `{"message": "Hello World"}`.  
+   - Test pomocí `curl http://localhost:5000/hello`.  
+   - Commit: „Endpoint /hello“.
+
+3. **Čtení textového souboru**  
+   - Endpoint `GET /text` vrací obsah `sample.txt`.  
+   - Test pomocí `curl http://localhost:5000/text`.  
+   - Commit: „Čtení obsahu souboru sample.txt“.
+
+4. **Lehký frontend (HTML + JS) + CORS**  
+   - `index.html` s voláním `fetch('/text')`.  
+   - Povolit CORS (buď `flask-cors`, nebo ručně v hlavičkách).  
+   - Commit: „Zprovozněný frontend + CORS“.
+
+5. **Zpracování Excel -> JSON**  
+   - Endpoint `POST /xlsx-to-json` používá `openpyxl` nebo `pandas`.  
+   - Test pomocí `curl -F file=@data.xlsx ...`.  
+   - Commit: „Implementace endpointu /xlsx-to-json“.
+
+6. **Dokumentace & údržba**  
+   - `README.md`, který vysvětluje postup instalace, spouštění.  
+   - `PROJECT_JOURNAL.md` s chronologickými záznamy (anebo zápis do README).  
+   - Commit průběžně se změnami: „Journal update“.
+
+---
+
+## 3. **Project Journal**  
+V repozitáři buď zvláštní soubor (např. `PROJECT_JOURNAL.md`), kam si budeš psát:
+
+- **Datum** přidání nových funkcí.  
+- **Popis** – co jsi změnil, jaké soubory upravil.  
+- **Způsob testování**.  
+- **Další plány**.
+
+Formou krátkých poznámek nebo klidně i delších odstavců. Každý commit navíc může mít stručné vysvětlení změn.
+
+---
+
+## 4. **Mermaid diagramy**  
+Pro lepší čitelnost a dokumentaci je můžeš dávat:
+
+- **Do README.md** (GitHub je podporuje).  
+- Nebo do `docs/diagramy.md`.  
+
+Příklad Gantt diagramu:
+
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title       Plán projektu Microservices
+
+    section Inicializace
+    "Repo na GitHubu, README": done, 2025-01-06, 1d
+
+    section REST API
+    "/hello" endpoint: done, 2025-01-07, 1d
+    "/text" endpoint: done, 2025-01-08, 1d
+
+    section Frontend + CORS
+    "index.html" + fetch: active, 2025-01-09, 1d
+    "CORS nastavení": 2025-01-10, 1d
+
+    section Zpracování Excel
+    "/xlsx-to-json": 2025-01-11, 2d
+    "Test v frontendu": 2025-01-13, 1d
+
+    section Dokončení
+    "Dokumentace + Journal": 2025-01-14, 1d
+    "Nasazení do cloudu (bonus)": 2025-01-15, 1d
+```
+
+---
+
+## 5. **Doporučená rozšíření (po dokončení základů)**  
+- **Jednotkové testy:** Nástroj `pytest` – testování endpointů a funkčnost.  
+- **Docker:** Vytvořit `Dockerfile` pro snadné spuštění kdekoli.  
+- **CI/CD:** GitHub Actions (např. automatické testy, linting).  
+- **Cloud deployment:** Heroku, Railway, Vercel, AWS.  
+
+---
+
+### **Shrnutí**  
+S opraveným odkazem [github.com/fedo2/Microservices](https://github.com/fedo2/Microservices) můžeš nyní pokračovat dle stanoveného plánu. Pokud cokoli nebude fungovat nebo bude potřeba dovysvětlit, stačí se ozvat a projdeme to krok za krokem. Hodně štěstí s dalším vývojem!
+
+Níže najdeš příklad adresářové struktury projektu **Microservices**, která je vhodná pro menší až střední Python/Flask projekty. Obsahuje základní složky pro kód, statické soubory (frontend), šablony, dokumentaci a testy. Můžeš si ji upravit dle svých potřeb.
+
+```
+Microservices/
+├── .gitignore            # Ignorované soubory (např. __pycache__, venv, atd.)
+├── README.md             # Základní informace o projektu a návod
+├── requirements.txt      # Přehled Python balíčků a verzí
+├── Project_Journal.md    # Chronologický záznam postupu a poznámek
+├── app.py                # Hlavní vstupní bod aplikace (Flask/FastAPI)
+├── docs/
+│   ├── diagrams.md       # Mermaid diagramy a případná dokumentace
+│   └── images/           # Případné obrázky/obrázkové přílohy
+├── static/
+│   ├── css/             # Kaskádové styly
+│   ├── js/              # JavaScript (frontend)
+│   └── img/             # Obrázky či ikony pro frontend
+└── templates/
+    └── index.html       # HTML šablony pro Flask (nebo jen statický frontend)
+
+```
+
+### Popis obsahu:
+
+1. **`.gitignore`**  
+   - Slouží k ignorování zbytečných či citlivých souborů:  
+     - Složky `__pycache__`, `.vscode`, `.idea`, případně `venv/`  
+     - Soubor `.DS_Store` (macOS) atd.
+
+2. **`README.md`**  
+   - Zde můžeš uvést:
+     - Účel projektu (o co jde).  
+     - Postup instalace (např. `pip install -r requirements.txt`).  
+     - Jak projekt spustit (`python app.py`).  
+     - Seznam endpointů nebo API dokumentaci.
+
+3. **`requirements.txt`**  
+   - Obsahuje konkrétní verze Python knihoven:  
+     ```txt
+     Flask==2.2.3
+     pandas==1.5.2
+     openpyxl==3.0.10
+     flask-cors==3.0.10
+     ```
+   - Uživatel si jednoduše nainstaluje závislosti příkazem:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+4. **`Project_Journal.md`**  
+   - Zde uchováváš deník projektu (co jsi kdy přidal, jak jsi testoval).  
+   - Můžeš jej vést i formou blogu s datem a popisem změn.
+
+5. **`app.py`** (nebo `main.py`)  
+   - Hlavní soubor, ve kterém se nachází kód aplikace. Např.:
+     ```python
+     from flask import Flask, jsonify, request
+     from flask_cors import CORS
+
+     app = Flask(__name__)
+     CORS(app)
+
+     @app.route('/hello', methods=['GET'])
+     def hello():
+         return jsonify({"message": "Hello World"})
+
+     if __name__ == '__main__':
+         app.run(debug=True)
+     ```
+
+6. **`docs/`**  
+   - Místo pro dokumentaci.  
+   - `diagrams.md` může obsahovat Mermaid diagramy (Gantt, sekvenční diagramy).  
+   - Podsložka `images/` pro uložené obrázky (např. screenshoty, UML).
+
+7. **`static/`**  
+   - Pro frontendové soubory, pokud chceš obsluhovat statické soubory přímo z Flasku.  
+   - `css/` pro kaskádové styly.  
+   - `js/` pro JavaScript kód komunikující např. s `/text`, `/xlsx-to-json` a podobně.  
+   - `img/` pro obrázky.
+
+8. **`templates/`**  
+   - Pro HTML šablony ve Flasku (např. `index.html`, `layout.html`).  
+   - Pokud jedeš čistě „statický“ frontend, můžeš mít HTML přímo v `static/` (a generovat jen API).  
+   - V případě Jinja2 šablon:  
+     ```python
+     from flask import render_template
+
+     @app.route('/')
+     def index():
+         return render_template('index.html')
+     ```
+
+### **Možné rozšíření** (dobrovolné)
+
+- **`tests/`**:  
+  - Složka pro jednotkové a integrační testy (např. `test_app.py`).  
+- **`Dockerfile`**:  
+  - Pro Dockerizaci aplikace, pokud budeš chtít nasazovat do kontejneru.  
+- **`docker-compose.yml`**:  
+  - Pokud potřebuješ další služby (databázi, frontu zpráv).  
+- **`scripts/`**:  
+  - Pomocné skripty pro build, deployment atd.
+
+Tato struktura ti pomůže udržet pořádek v projektu a snadno oddělit **backend** část (Flask), **frontend** statiku, dokumentaci a doprovodné materiály. Samozřejmě si ji můžeš upravovat podle svých preferencí a velikosti projektu.
